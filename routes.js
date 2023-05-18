@@ -15,7 +15,7 @@ const routesHandler=(req, res)=>{
         res.write('</html>');
         return res.end();
         })
-    }
+    }  
         if(url==='/msg' && method==='POST'){
             const body=[];
             req.on('data',(chunk)=>{

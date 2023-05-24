@@ -4,6 +4,8 @@ const path = require('path');
 
 const app=express();
 
+const db = require('./util/database');
+
 const addproductRoutes = require('./routes/addproduct');
 const shopRoutes = require('./routes/shop');
 const contactRoutes = require('./routes/contact');

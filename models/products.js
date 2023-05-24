@@ -1,26 +1,23 @@
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../util/path');
-const { json } = require('body-parser');
-
+const db = require('../util/database');
 module.exports = class Product{
-    constructor(name){
-        this.name=name;
+    constructor(id, name, price, description, imageurl){
+        this.id=id,
+        this.name=name,
+        this.price=price,
+        this.description=description,
+        this.imageurl=imageurl
     }
+
     save(){
-        const p = path.join(rootDir, 'data', 'products.json');
-        fs.readFile(p, (err, data)=>{
-            let products=[];
-            if(!err){
-                products=JSON.parse(data);
-            }
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), (err)=>{
-                console.log(err);
-            });
-        })
+        return db.execute('INSERT INTO products (name, price, imageurl, description) VALUES (?,?,?,?)',
+        [this.name, this.price, this.imageurl, this.description])
     }
+
     static fetchAll(){
-        return products;
+        return db.execute('SELECT * FROM products');
+    }
+
+    static findById(){
+        return db.execute('SELECT * FROM products WHERE id = ?', [id]);
     }
 }

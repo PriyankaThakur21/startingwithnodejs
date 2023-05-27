@@ -11,8 +11,12 @@ exports.postAddProduct = (req, res)=>{
     const price = req.body.price;
     const description = req.body.description;
     const imageurl = req.body.imageurl;
-    const product = new Product(null, name, price, description, imageurl);
-    product.save()
+    req.user.createProduct({
+        name: name,
+        price: price,
+        description: description,
+        imageurl: imageurl
+    })
     .then(()=>{
         res.redirect('/');
     })
@@ -22,7 +26,8 @@ exports.postAddProduct = (req, res)=>{
 }
 
 exports.getProducts = (req,res,next)=>{
-    Product.fetchAll()
+    const prodid = req.params.id;
+    req.getProduct({where:{id: prodid}})
     .then(([data])=>{
         console.log(data);
     })
